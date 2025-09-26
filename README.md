@@ -125,4 +125,5 @@ This is a minimal implementation with lots of room for growth. Potential next st
 
 * **AI-Powered Refactoring**: Integrate the OpenAI API to provide more advanced, context-aware fixes for complex issues like missing authorization.
 * **Broader Language Support**: Add Semgrep rules for other languages like JavaScript, Go, and Java.
+
 * **Configuration**: Allow users to enable/disable specific rules or customize rule paths.
