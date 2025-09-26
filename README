@@ -1,0 +1,128 @@
+# Secure Code Assistant - VS Code Extension
+
+A Visual Studio Code extension designed to help developers write more secure code by identifying and fixing common anti-patterns in real-time. This project leverages the power of **Semgrep** to find vulnerabilities and uses VS Code's native UI to provide warnings and one-click fixes.
+
+
+
+---
+
+## ✨ Core Features
+
+* **Prompt Enrichment**: Enhances prompts for AI code generators (like Copilot) to include security requirements.
+* **Real-time Security Scanning**: Automatically scans your Python code on every save.
+* **Vulnerability Detection**: Identifies common issues using a powerful local scanning engine, Semgrep.
+    * Detects **Hardcoded Secrets** (e.g., API keys in plaintext).
+    * Detects **Missing Authorization Checks** in web framework routes.
+* **In-Editor Warnings**: Displays clear, underlined warnings (diagnostics) directly in your code.
+* **One-Click Quick Fixes**: Provides an auto-fix option for simple, mechanical issues like hardcoded secrets.
+
+---
+
+## 📋 Prerequisites
+
+Before you can run or develop this extension, you need a few things installed on your system.
+
+1.  **[Visual Studio Code](https://code.visualstudio.com/)**: The code editor.
+2.  **[Node.js and npm](https://nodejs.org/)**: For managing project dependencies and running scripts.
+3.  **[Semgrep](https://semgrep.dev/docs/getting-started/)**: The core static analysis engine. This is **required**. You can install it with `pip` or `brew`:
+    ```bash
+    # Using Python/pip
+    pip install semgrep
+
+    # Using Homebrew on macOS
+    brew install semgrep
+    ```
+
+---
+
+## 🚀 Getting Started (For Development)
+
+To get the extension running on your local machine for development and testing, follow these steps:
+
+1.  **Clone the Repository**
+    ```bash
+    git clone <your-repository-url>
+    cd secure-code-assistant
+    ```
+
+2.  **Install Dependencies**
+    Open the project in VS Code and run this command in the built-in terminal:
+    ```bash
+    npm install
+    ```
+
+3.  **Run the Extension**
+    Simply press the **`F5`** key. This will compile the TypeScript code and launch a new "Extension Development Host" window with the extension running inside it.
+
+---
+
+## 💻 How to Use the Extension
+
+Once the extension is running (after pressing `F5`), you can test its features in the **new "Extension Development Host" window**.
+
+### Testing the Security Scanner
+
+1.  Create a new file and save it as `test.py`.
+2.  Paste the following insecure Python code into the file:
+    ```python
+    from flask import Flask
+
+    app = Flask(__name__)
+
+    # Insecure: Hardcoded secret!
+    API_KEY = "sk-12345abcdefg67890hijklmn"
+    secret_key = "my-super-secret-password-that-is-not-safe"
+
+    @app.route("/admin")
+    def admin_panel():
+        # Insecure: Missing authorization check!
+        return "Welcome to the admin panel."
+    ```
+3.  **Save the file** (`Ctrl+S`).
+4.  **Observe the warnings**:
+    * A **red wavy underline** will appear under the `API_KEY` and `secret_key` lines.
+    * A **yellow wavy underline** will appear under the `admin_panel` function definition.
+5.  **Use the Quick Fix**:
+    * Click on the line with `API_KEY`.
+    * A lightbulb icon 💡 will appear. Click it, or press `Ctrl+.`.
+    * Select the option **"Replace with os.environ.get()"**. The code will be fixed automatically.
+
+### Testing Prompt Enrichment
+
+1.  In any file, type a prompt for an AI assistant, for example: `// Create a function to handle user login`.
+2.  Select the text you just typed.
+3.  Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`).
+4.  Type and select **"Enrich Prompt for Security"**. Your prompt will be enhanced with security instructions.
+
+---
+
+## 🔧 Project Structure
+
+Here is an overview of the key files and folders in this project:
+
+```
+.
+├── out/                   # The compiled JavaScript output of your code.
+│   ├── extension.js
+│   └── extension.js.map
+├── rules/                 # Your custom Semgrep rules.
+│   └── python-security.yml
+├── src/                   # Your source code written in TypeScript.
+│   └── extension.ts
+├── .vscodeignore          # Tells VS Code which files to ignore when packaging.
+├── package-lock.json      # Locks the versions of your dependencies.
+├── package.json           # Defines the extension and its dependencies.
+├── README.md              # Your project's documentation.
+├── test.py                # A sample Python file for testing the extension.
+└── tsconfig.json          # TypeScript compiler configuration.
+```
+
+-----
+
+## 🔮 Future Improvements
+
+This is a minimal implementation with lots of room for growth. Potential next steps include:
+
+* **AI-Powered Refactoring**: Integrate the OpenAI API to provide more advanced, context-aware fixes for complex issues like missing authorization.
+* **Broader Language Support**: Add Semgrep rules for other languages like JavaScript, Go, and Java.
+* **Configuration**: Allow users to enable/disable specific rules or customize rule paths.

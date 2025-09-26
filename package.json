@@ -1,0 +1,47 @@
+{
+  "name": "secure-code-assistant",
+  "displayName": "Secure Code Assistant",
+  "description": "A VS Code extension to find and fix insecure code.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:python",
+    "onLanguage:javascript"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "secure-code-assistant.enrichPrompt",
+        "title": "Enrich Prompt for Security"
+      }
+    ],
+    "codeActions": [
+        {
+            "languages": ["python", "javascript"],
+            "title": "Secure Code Assistant Actions",
+            "kind": "quickfix"
+        }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.82.0",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "eslint": "^8.50.0",
+    "typescript": "^5.2.2"
+  }
+}

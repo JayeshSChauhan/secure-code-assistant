@@ -1,0 +1,26 @@
+rules:
+  - id: hardcoded-secret
+    patterns:
+      - pattern-either:
+          - pattern: |
+              API_KEY = "..."
+          - pattern: |
+              SECRET_KEY = "..."
+          - pattern: |
+              api_key = "..."
+          - pattern: |
+              secret_key = "..."
+    message: "Hardcoded secret detected. Use environment variables instead of plaintext credentials."
+    languages: [python]
+    severity: ERROR
+
+  - id: missing-auth-check
+    patterns:
+      - pattern-inside: |
+          @app.route(...)
+          def $ENDPOINT(...):
+            ...
+      - pattern-not: require_auth(...)
+    message: "Authorization check is missing. Protect this route by adding an authentication and authorization check."
+    languages: [python]
+    severity: WARNING
